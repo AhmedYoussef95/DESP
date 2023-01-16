@@ -6,4 +6,4 @@ The dynamic expression of proteins and other molecules drives phenotypic remodel
 
 ## Download R package
 
-*Coming soon!*
+```devtools::install_github("AhmedYoussef95/DESP")```
