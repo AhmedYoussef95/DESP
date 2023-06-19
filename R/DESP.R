@@ -36,7 +36,7 @@
 NULL
 #' @export
 DESP <- function(bulk, proportions, lambda = 1e-7, beta = 1e-4, M = NULL){
-  #construct matrix bulk as the bulk proteome
+  #construct sample-by-feature bulk matrix
   bulk <- t(bulk)
 
   #define required matrices/vectors for the quadratic solver
@@ -52,15 +52,18 @@ DESP <- function(bulk, proportions, lambda = 1e-7, beta = 1e-4, M = NULL){
   #to avoid overflow cause by large values, scale Dmat and dvec
   scalingFactor <- norm(Dmat, "2")
 
-  #apply regression gene-by-gene
+  #apply DESP for each feature
   prediction <- t(apply(bulk, 2, function(curFeature){
-    #define required matrices/vectors for the quadratic solver
+    #define required vector for the quadratic solver
     dvec <- t(proportions) %*% curFeature
 
     #solve quadratic equation
     predictedMeasurements <- quadprog::solve.QP(Dmat = Dmat / scalingFactor,
                                                 dvec = dvec / scalingFactor,
                                                 Amat = Amat)
+
+    #set column names to input cell state names
+    colnames(predictedMeasurements$solution) <- colnames(proportions)
 
     #return predicted cell state-level profiles
     return(predictedMeasurements$solution)
