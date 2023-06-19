@@ -62,12 +62,13 @@ DESP <- function(bulk, proportions, lambda = 1e-7, beta = 1e-4, M = NULL){
                                                 dvec = dvec / scalingFactor,
                                                 Amat = Amat)
 
-    #set column names to input cell state names
-    colnames(predictedMeasurements$solution) <- colnames(proportions)
-
-    #return predicted cell state-level profiles
+    #return feature's predicted cell state-level profiles
     return(predictedMeasurements$solution)
   }))
 
+  #set column names to input cell state names
+  colnames(prediction) <- colnames(proportions)
+
+  #return predicted cell state-level profiles
   return(prediction)
 }
