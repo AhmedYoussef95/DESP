@@ -30,7 +30,14 @@
 #'  matrix into the underlying cell state 'omics profiles.
 #'
 #' @examples
-#' desp <- DESP(bulk, proportions)
+#' #read in example bulk omics data
+#' bulk <- read.csv("data/bulk_EMT_proteome.csv")
+#'
+#' #read in example cell state proportions
+#' proportions <- read.csv("data/EMT_proportions.csv")
+#'
+#' #DESP demixing to predict cell state profiles
+#' prediction <- DESP(bulk, proportions)
 #'
 #' @import quadprog
 NULL
