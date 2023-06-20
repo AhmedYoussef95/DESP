@@ -41,10 +41,11 @@ samples.
 }
 \examples{
 #read in example bulk omics data
-bulk <- read.csv("data/bulk_EMT_proteome.csv", row.names = 1)
+bulk <- read.csv("DESP/data/bulk_EMT_proteome.csv", row.names = 1)
 
 #read in example cell state proportions
-proportions <- as.matrix(read.csv("data/EMT_proportions.csv", row.names = 1))
+proportions <- as.matrix(read.csv("DESP/data/EMT_proportions.csv",
+ row.names = 1))
 
 #DESP demixing to predict cell state profiles
 prediction <- DESP(bulk, proportions)

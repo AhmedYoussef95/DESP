@@ -36,10 +36,11 @@
 #'
 #' @examples
 #' #read in example bulk omics data
-#' bulk <- read.csv("data/bulk_EMT_proteome.csv", row.names = 1)
+#' bulk <- read.csv("DESP/data/bulk_EMT_proteome.csv", row.names = 1)
 #'
 #' #read in example cell state proportions
-#' proportions <- as.matrix(read.csv("data/EMT_proportions.csv", row.names = 1))
+#' proportions <- as.matrix(read.csv("DESP/data/EMT_proportions.csv",
+#'  row.names = 1))
 #'
 #' #DESP demixing to predict cell state profiles
 #' prediction <- DESP(bulk, proportions)
@@ -84,13 +85,14 @@ visualizeDESP <- function(bulk, prediction, proportions,
     alphaValues[which(links$Sample == highlightSample,)] <- 0.5
 
   #alluvial plot
+  library(ggalluvial)
   ggplot2::ggplot(links, aes(y = Contribution, axis1 = Sample, axis2 = `Cell State`)) +
     ggalluvial::geom_alluvium(aes(fill = Sample, alpha = alphaValues), knot.pos = 0.3) +
     ggalluvial::geom_stratum(width = 1/12, aes(fill = after_stat(stratum)),
                  color = "grey", alpha = 0.9) +
     geom_text(aes(label = ifelse(Percentage >= 0.15,
                                  paste0(round(Percentage, 2)*100,"%"), "")),
-              stat = "flow", size = 2, alpha = 0.5, nudge_x = -0.07) +
+               stat = "flow", size = 2, alpha = 0.5, nudge_x = -0.07) +
     geom_label(stat = "stratum", aes(label = after_stat(stratum)), size = 4) +
     scale_x_discrete(limits = c("Sample", "Cell State"), expand = c(0, 0.1)) +
     scale_alpha(range = c(0.2, 0.9)) +
