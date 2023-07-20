@@ -6,7 +6,8 @@ Authors@R:
            comment = c(ORCID = "0000-0001-6100-7503"))
 Description: The dynamic expression of proteins and other molecules drives phenotypic remodeling crucial to development and pathobiology, yet due to technical limitations these systems remain largely unexplored at the resolution of the underlying cell states. We present DESP, a novel algorithm that leverages independent readouts of cellular proportions, such as single-cell RNA-sequencing or cell sorting, to resolve the relative contributions of cell states to bulk molecular measurements recorded in parallel, most notably quantitative proteomics. DESP provides a generalizable computational framework for modeling the relationship between bulk and single-cell molecular measurements and offers researchers the ability to study the proteome and other molecular profiles at the cell-level using established bulk-level workflows.
 Depends:
- quadprog
+    quadprog,
+    R (>= 2.10)
 Imports:
  magrittr,
  dplyr,
@@ -19,5 +20,9 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
+LazyData: true
