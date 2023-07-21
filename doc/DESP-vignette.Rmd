@@ -1,0 +1,119 @@
+---
+title: "*DESP*: Demixing Cell State Profiles in Bulk Omics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{DESP-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  comment = "#>"
+)
+```
+
+This vignette provides a tutorial for using *DESP* to demix bulk omics data. *DESP* is a tool for predicting cell type-level omics profiles given bulk omics data and corresponding cell type compositions. In this tutorial, we present a case study from [our manuscript](https://www.biorxiv.org/content/10.1101/2023.01.19.524460v2) for identifying the proteomics profiles of transient cell states that occur in a model of cancer progression.
+
+### What is *"demixing"*?
+
+We use the term *demixing* to refer to separating cell type contributions to bulk omics measurements. Although the term *deconvolution* also applies to our method, we wanted to avoid that term to avoid comparisons to established *deconvolution* algorithms that have a different goal than ours, since the term *deconvolution* in bioinformatics is strongly associated with algorithms that aim to infer cell type proportions given single-cell and bulk profiles, as opposed to *DESP* which aims to predict single-cell profiles given cell type proportions and bulk profiles.
+
+### Install R package
+
+*DESP* is currently available through GitHub. To download R packages from GitHub, we suggest using the `install_github` function from the `devtools` package as below.
+
+```{r installPackage}
+#install DESP package from GitHub
+library(devtools)
+devtools::install_github("AhmedYoussef95/DESP")
+
+#load package
+library(DESP)
+```
+
+### Formatting input data
+
+*DESP* requires two inputs:
+
+* Bulk omics data
+  * Feature-by-sample matrix *(already pre-processed by user)*
+* Cell population composition
+  * Cell type-by-sample matrix containing number of cells or proportion of each cell type in each sample
+
+Note: samples should be consistently named/ordered between the two datasets.
+
+Additionally, *DESP* can improve prediction accuracy by incorporating a type of cell state similarity regularization that maintains the input cell state structure within the predictions. This regularization requires an additional matrix containing the similarities between the input cell states as described later below.
+
+In this vignette, we will use data from the [Paul et al. (2023)](https://www.nature.com/articles/s41467-023-36122-x) publication. The data corresponds to bulk MS proteomics data and single-cell RNA-Seq data quantified in a timecourse study examining pre-cancerous cells undergoing TGF-Beta-induced EMT.
+
+#### 1. Bulk omics data
+
+The example bulk omics data we will use corresponds to MS proteomics measurements for 6,966 proteins quantified in 8 consecutive timepoints as the cells underwent the transition from predominantly epithelial cultures into the mesenchymal end state. The data is bundled within the package as `bulk_EMT_proteome`.
+
+```{r bulkData}
+#read in bulk omics data included with package
+data(bulk_EMT_proteome)
+
+#check first few rows of data
+head(bulk_EMT_proteome)
+```
+
+#### 2. Cell state compositions 
+
+As described in [our manuscript](https://www.biorxiv.org/content/10.1101/2023.01.19.524460v2), the single-cell RNA-Seq data from this EMT study was clustered to reveal 10 distinct cell states that occur among the 1,913 cells during the transition, along with their proportions in each of the 8 timepoints. *DESP* only requires the cell state proportions as input, since it does not directly use the single-cell measurements in its predictions. The corresponding cell state composition matrix is bundled within the package as `EMT_proportions`.
+
+```{r cellTypeCompositions}
+#read in cell state proportions included with package
+data(EMT_proportions)
+
+#examine data
+EMT_proportions
+```
+
+#### 3. (Optional) Cell type similarities
+
+*DESP* can improve prediction accuracy by incorporating a type of cell state similarity regularization that preserves the input cell state structure. This regularization requires an additional state-by-state matrix quantifying the similarity of the input cell states. For this EMT dataset, we computed the cell state similarities as the Pearson correlation coefficient between the averaged scRNA-Seq expression profiles of each pair of cell states. This similarity matrix is bundled within the package as `EMT_cell_state_similarities`.
+
+```{r cellStateSimilarities}
+#read in cell state similarities included with package
+data(EMT_cell_state_similarities)
+
+#examine data
+EMT_cell_state_similarities
+```
+
+### Running *DESP*
+
+Given the input matrices, DESP can be run with just one line of code:
+
+```{r runDESP}
+#DESP demixing to predict cell state profiles
+prediction <- DESP(bulk = bulk_EMT_proteome,
+                   proportions = EMT_proportions,
+                   similarities = EMT_cell_state_similarities)
+
+#examine first few rows of prediction
+head(prediction)
+```
+
+#### Output format
+
+The output of *DESP* is a feature-by-cell state matrix containing the predicted feature levels for each of the pre-defined cell states, effectively demixing the measured bulk 'omics matrix into the underlying cell state 'omics profiles. This matrix can be used for standard downstream analyses such as differential expression analysis and gene set enrichment analysis and visualized using existing heatmap packages.
+
+### Visualizing output of DESP
+
+*DESP* includes a function for visualizing the demixing of a given feature (e.g. gene/protein) in the form of a sankey plot. The sankey plot visualizes *DESP*'s predicted cell state contributions to bulk measurements for a given feature, where ribbons connect input bulk samples (left) to cell states (right). The thickness of the ribbons corresponds to the relative contribution of the associated cell state to the measured bulk expression of the given feature in the associated bulk sample. Meanwhile, the sizes of the blocks correspond to the magnitude of the feaeture's expression in the given bulk sample/cell state.
+
+Below, we produce the visualization for the 'AAK1' protein as an example.
+
+```{r visualize, fig.width=8, fig.height = 6}
+#visualize results for example protein 'AAK1'
+visualizeDESP(bulk = bulk_EMT_proteome,
+              prediction = prediction,
+              proportions = EMT_proportions,
+              feature = "AAK1")
+```
