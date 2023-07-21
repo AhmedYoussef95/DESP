@@ -21,7 +21,7 @@ Default value is \code{1e-7} and should be suitable for most applications.}
 \item{beta}{Cell state similarity normalization parameter.
 Default value is \code{1e-4} and should be suitable for most applications.}
 
-\item{M}{(Optional) Cell state similarity matrix. State-by-state numeric
+\item{similarities}{(Optional) Cell state similarity matrix. State-by-state numeric
 matrix containing the similarity of the cell states to each other. Any
 similarity metric can be used (e.g. Pearson correlation) as long as the
 larger values indicate higher similarity (e.g. distances should be

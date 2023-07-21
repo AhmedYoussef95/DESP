@@ -20,7 +20,7 @@ test_that("DESP produces matrix with correct dimensions", {
 
 test_that("Cell state similarity regularization functional", {
   #DESP demixing to predict cell state profiles
-  prediction <- DESP(bulk, proportions, M)
+  prediction <- DESP(bulk, proportions, similarities = M)
 
   #does it return correct dimensions?
   expect_equal(nrow(prediction), nrow(bulk))

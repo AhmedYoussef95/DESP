@@ -18,7 +18,7 @@
 #'  Default value is \code{1e-7} and should be suitable for most applications.
 #' @param beta Cell state similarity normalization parameter.
 #'  Default value is \code{1e-4} and should be suitable for most applications.
-#' @param M (Optional) Cell state similarity matrix. State-by-state numeric
+#' @param similarities (Optional) Cell state similarity matrix. State-by-state numeric
 #'  matrix containing the similarity of the cell states to each other. Any
 #'  similarity metric can be used (e.g. Pearson correlation) as long as the
 #'  larger values indicate higher similarity (e.g. distances should be
@@ -43,7 +43,7 @@
 #' @import quadprog
 NULL
 #' @export
-DESP <- function(bulk, proportions, lambda = 1e-7, beta = 1e-4, M = NULL){
+DESP <- function(bulk, proportions, lambda = 1e-7, beta = 1e-4, similarities = NULL){
   #construct sample-by-feature bulk matrix
   bulk <- t(bulk)
 
@@ -52,8 +52,8 @@ DESP <- function(bulk, proportions, lambda = 1e-7, beta = 1e-4, M = NULL){
   Amat <- diag(ncol(proportions))
 
   #add regularization parameters
-  if (!is.null(M))
-    Dmat <- Dmat + (lambda * diag(nrow(Dmat))) + (beta * solve(M))
+  if (!is.null(similarities))
+    Dmat <- Dmat + (lambda * diag(nrow(Dmat))) + (beta * solve(similarities))
   else
     Dmat <- Dmat + (lambda * diag(nrow(Dmat)))
 
