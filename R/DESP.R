@@ -31,14 +31,13 @@
 #'
 #' @examples
 #' #read in example bulk omics data
-#' bulk <- read.csv("DESP/data/bulk_EMT_proteome.csv", row.names = 1)
+#' data(bulk_EMT_proteome)
 #'
 #' #read in example cell state proportions
-#' proportions <- as.matrix(read.csv("DESP/data/EMT_proportions.csv",
-#'  row.names = 1))
+#' data(EMT_proportions)
 #'
 #' #DESP demixing to predict cell state profiles
-#' prediction <- DESP(bulk, proportions)
+#' prediction <- DESP(bulk_EMT_proteome, EMT_proportions)
 #'
 #' @import quadprog
 NULL

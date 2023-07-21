@@ -45,16 +45,16 @@ Make sure to run \emph{DESP} on your data first!
 }
 \examples{
 #read in example bulk omics data
-bulk <- read.csv("DESP/data/bulk_EMT_proteome.csv", row.names = 1)
+data(bulk_EMT_proteome)
 
 #read in example cell state proportions
-proportions <- as.matrix(read.csv("DESP/data/EMT_proportions.csv",
- row.names = 1))
+data(EMT_proportions)
 
 #DESP demixing to predict cell state profiles
-prediction <- DESP(bulk, proportions)
+prediction <- DESP(bulk_EMT_proteome, EMT_proportions)
 
 #visualize results for example protein 'AAK1'
-visualizeDESP(bulk, prediction, proportions, feature = "AAK1")
+visualizeDESP(bulk_EMT_proteome, prediction,
+ EMT_proportions, feature = "AAK1")
 
 }
