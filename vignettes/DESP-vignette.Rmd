@@ -44,7 +44,7 @@ library(DESP)
 * Cell population composition
   * Cell type-by-sample matrix containing number of cells or proportion of each cell type in each sample
 
-Note: samples should be consistently named/ordered between the two datasets.
+Note: samples should be consistently named/ordered between the two datasets and not contain missing values.
 
 Additionally, *DESP* can improve prediction accuracy by incorporating a type of cell state similarity regularization that maintains the input cell state structure within the predictions. This regularization requires an additional matrix containing the similarities between the input cell states as described later below.
 
