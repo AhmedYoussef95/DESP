@@ -2,19 +2,19 @@
 
 An algorithm for predicting single-cell 'omics from bulk 'omics.
 
-*See our [pre-print](https://www.biorxiv.org/content/10.1101/2023.01.19.524460v1)!*
+*See the [pre-print](https://www.biorxiv.org/content/10.1101/2023.01.19.524460v2)!*
 
 ## Summary
 
 * Biological systems are composed of heterogenous cell populations with distinct molecular profiles
-* Single-cell methods like scRNA-Seq make it routinely feasible to characterize the cell type composition of samples, *but..*
+* Single-cell methods like scRNA-Seq make it feasible to characterize the cell type composition of samples, *but..*
 * Experimental limitations make it difficult to directly measure many molecules (e.g. proteins) at the cell-level
-* We developed *DESP* to predict cell-level omics profiles given bulk omics data and cell type composition of samples
+* We developed *DESP* to predict cell-level omics profiles from bulk omics and cell type composition of samples
 * *DESP* overcomes experimental resolution limitations to enable the study of proteomes and other molecular profiles at the cell-level using established bulk-level workflows
 
 ##  Visual summary
 
-*From [(Youssef et al., 2023)](https://www.biorxiv.org/content/10.1101/2023.01.19.524460v1)*
+*From [(Youssef et al., 2023)](https://www.biorxiv.org/content/10.1101/2023.01.19.524460v2)*
 
 ![](https://github.com/AhmedYoussef95/Image-dump/blob/main/Fig%201.png)
 
@@ -47,6 +47,8 @@ For example, a matrix with relative protein levels across cell types if the inpu
 
 ## Download R package
 
+*DESP* is currently available through GitHub. To download R packages from GitHub, we suggest using the `install_github` function from the `devtools` package as below.
+
 ```devtools::install_github("AhmedYoussef95/DESP")```
 
 ## Example code
@@ -57,19 +59,21 @@ Given pre-processed matrices with the bulk omics data and cell type proportions 
 
 The output matrix can then be used for standard downstream analysis such as differential expression analysis and gene set enrichment analysis.
 
+For a more detailed user-friendly tutorial, see the [vignette](https://htmlpreview.github.io/?https://github.com/AhmedYoussef95/DESP/blob/main/doc/DESP-vignette.html).
+
 ## Example applications
 
-* Predicting omics profiles of transient cell states in timecourse studies of cell differentiation or disease progression
+* Predicting omics profiles of transient cell states in studies of cell differentiation or disease progression
 * Finding differences in cell type responses between disease subtypes
-* Identifying biomarkers of tissue-specific and housekeeping cell types in global organism databases (e.g. the *Human Cell Atlas*)
+* Identifying biomarkers of tissue-specific and housekeeping cell types from organism-level databases
 
 ## What is *"demixing"*?
 
-We use the term *demixing* to refer to separating cell type contributions to bulk omics measurements. Although the term *deconvolution* also applies to our method, we wanted to avoid that term to avoid comparisons to established *deconvolution* algorithms that have a different goal than ours, since the term *deconvolution* in bioinformatics is strongly associated with algorithms that aim to infer cell type proportions given single-cell and bulk profiles, as opposed to *DESP* which aims to predict single-cell profilese giveen cell type proportions and bulk profiles.
+We use the term *demixing* to refer to separating cell type contributions to bulk omics measurements. Although the term *deconvolution* also applies to our method, we wanted to avoid that term to avoid comparisons to established *deconvolution* algorithms that have a different goal than ours, since the term *deconvolution* in bioinformatics is strongly associated with algorithms that aim to infer cell type proportions given single-cell and bulk profiles, as opposed to *DESP* which aims to predict single-cell profiles given cell type proportions and bulk profiles.
 
 ## Case study
 
-To see an application of *DESP* for identifying the proteomics profiles of transient cell states that occur in cancer progression, see [Youssef et al. (2023)](https://www.biorxiv.org/content/10.1101/2023.01.19.524460v1).
+To see an application of *DESP* for identifying the proteomics profiles of transient cell states that occur in cancer progression, see [Youssef et al. (2023)](https://www.biorxiv.org/content/10.1101/2023.01.19.524460v2).
 
 ## Cite *DESP*
 
