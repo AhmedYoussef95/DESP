@@ -39,6 +39,13 @@ Predict cell state \emph{'omics} profiles given dynamic bulk
 \emph{'omics} measurements and corresponding cell state proportions across
 samples.
 }
+\details{
+Note: samples should be consistently named/ordered between the two datasets
+and not contain missing values. We recommend reversing log transformations
+before applying \emph{DESP} to align with its additive model ('bulk as sum of
+single cells'), followed by log transformation of resultant cell
+state-level predictions for downstream analyses as needed.
+}
 \examples{
 #read in example bulk omics data
 data(bulk_EMT_proteome)

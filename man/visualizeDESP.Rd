@@ -54,7 +54,9 @@ data(EMT_proportions)
 prediction <- DESP(bulk_EMT_proteome, EMT_proportions)
 
 #visualize results for example protein 'AAK1'
-visualizeDESP(bulk_EMT_proteome, prediction,
- EMT_proportions, feature = "AAK1")
+visualizeDESP(bulk = bulk_EMT_proteome,
+prediction = prediction,
+proportions = EMT_proportions,
+feature = "AAK1")
 
 }
