@@ -24,7 +24,7 @@ We use the term *demixing* to refer to separating cell type contributions to bul
 
 ### Install R package
 
-*DESP* is currently available through GitHub. To download R packages from GitHub, we suggest using the `install_github` function from the `devtools` package as below.
+*DESP* is currently available through GitHub. To download R packages from GitHub, we suggest using the `install_github` function from the `devtools` package as in the below example.
 
 ```{r installPackage}
 #install DESP package from GitHub
@@ -44,7 +44,7 @@ library(DESP)
 * Cell population composition
   * Cell type-by-sample matrix containing number of cells or proportion of each cell type in each sample
 
-Note: samples should be consistently named/ordered between the two datasets.
+Note: samples should be consistently named/ordered between the two datasets and not contain missing values. We recommend reversing log transformations before applying *DESP* to align with its additive model ('bulk as sum of single cells'), followed by log transformation of resultant cell state-level predictions for downstream analyses as needed. 
 
 Additionally, *DESP* can improve prediction accuracy by incorporating a type of cell state similarity regularization that maintains the input cell state structure within the predictions. This regularization requires an additional matrix containing the similarities between the input cell states as described later below.
 
